@@ -7,4 +7,16 @@ public class MenuController {
 
     MenuView menuView = new MenuView();
 
+    //Demanar si es contr...
+
+
+    while (option != 3){
+    //pides opcion
+
+
+
+
+
+    }
+
 }

@@ -23,12 +23,8 @@ public class MenuView {
         System.out.println("     2) Manage Editions\n");
         System.out.println("     3) Exit\n");
         option = askUserOptionBetweenNumbers("Enter an option: ", 1,3);
-        if(option==3){
-            System.out.println("\nShutting down... ");
-            System.exit(-1);
-        } else {
-            return option;
-        }
+
+        return option;
     }
 
     private int askUserOptionBetweenNumbers(String text, int min, int max){
