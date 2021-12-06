@@ -1,22 +1,17 @@
 package Business;
 
 import Presentation.MenuView;
+import Presentation.*;
 
 public class MenuController {
-    String role;
+    int role;
 
     MenuView menuView = new MenuView();
 
+
+
+
     //Demanar si es contr...
 
-
-    while (option != 3){
-    //pides opcion
-
-
-
-
-
-    }
 
 }
