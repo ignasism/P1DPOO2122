@@ -6,13 +6,20 @@ import Business.MenuController;
 
 
 public class MenuView {
+    public MenuView() {
+    }
+
 
     public int getRole() {
 
         Scanner scanner = new Scanner(System.in);
         char input;
 
-        System.out.println("THE TRIALS");
+        System.out.println(" _____ _             _____      _       _");
+        System.out.println("/__   \\ |__   ___   /__   \\_ __(_) __ _| |___");
+        System.out.println("  / /\\/ '_ \\ / _ \\    / /\\/ '__| |/ _` | / __|");
+        System.out.println(" / /  | | | |  __/   / /  | |  | | (_| | \\__ \\");
+        System.out.println(" \\/   |_| |_|\\___|   \\/   |_|  |_|\\__,_|_|___/");
         System.out.println("\nWelcome to The Trials. Who are you?\n");
         System.out.println("     A) The Composer");
         System.out.println("     B) This year's Conductor\n");
@@ -52,6 +59,8 @@ public class MenuView {
         option = askUserOptionBetweenLetters("Enter an option: ", 'a', 'd');
         return option;
     }
+
+
 
     private char askUserOptionBetweenLetters (String text, char min, char max){
 
