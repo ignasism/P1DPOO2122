@@ -60,6 +60,19 @@ public class MenuView {
         return option;
     }
 
+    public int subManageEditions(){
+        int option;
+
+        System.out.println("\na) Create Edition");
+        System.out.println("b) List Editions");
+        System.out.println("c) Duplicate Editions");
+        System.out.println("d) Delete Edition");
+        System.out.println("\ne) Back\n");
+
+        option = askUserOptionBetweenLetters("Enter an option: ", 'a', 'e');
+        return option;
+    }
+
 
 
     private char askUserOptionBetweenLetters (String text, char min, char max){
