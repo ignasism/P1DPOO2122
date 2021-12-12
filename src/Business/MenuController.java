@@ -5,15 +5,18 @@ import Presentation.*;
 
 public class MenuController {
 
-    void manageTrials(){
+    public void manageTrials(){
+
         int option1;
         MenuView menuView = new MenuView();
+        Trial trial = new Trial();
 
         do {
             option1 = menuView.subManageTrials();
 
             if (option1 == 'a') {
                 // Create trial
+                trial = menuView.createTrial();
 
             } else if (option1 == 'b') {
                 // List trial
@@ -27,7 +30,8 @@ public class MenuController {
 
     }
 
-    void manageEditions(){
+    public void manageEditions(){
+
         int option2;
         MenuView menuView = new MenuView();
 

@@ -1,8 +1,10 @@
 package Presentation;
 
+import java.sql.SQLOutput;
 import java.util.Locale;
 import java.util.Scanner;
 import Business.MenuController;
+import Business.Trial;
 
 
 public class MenuView {
@@ -73,7 +75,64 @@ public class MenuView {
         return option;
     }
 
+    public Trial createTrial(){
 
+        Trial trial = new Trial();
+        Scanner scanner = new Scanner(System.in);
+
+        int revision, rejection, acceptance;
+        String quartile, journal_name;
+
+        System.out.println("    --- Trial types ---\n");
+        System.out.println("    1) Paper publication\n");
+
+        System.out.print("Enter the trial's name: ");
+        trial.setTrialName(scanner.nextLine());
+
+        do {
+            System.out.print("Enter the journal’s name: ");
+            journal_name = scanner.nextLine();
+            if (journal_name.isEmpty() || journal_name.isBlank()) {
+                System.out.println("Journal's name is wrong, try again.\n");
+            }
+        }while(journal_name.isEmpty() || journal_name.isBlank());
+        trial.setPublicationName(scanner.nextLine());
+
+        do {
+
+            System.out.print("Enter the journal’s quartile: ");
+            quartile = scanner.nextLine();
+
+            if (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4")){
+                System.out.println("Wrong quartile, try again.\n");
+            }
+
+        }while (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4"));
+
+        trial.setQuartile(quartile);
+        //System.out.println(trial.getQuartile());
+
+        do {
+
+            acceptance = askUserOptionBetweenNumbers("Enter the acceptance probability: ", 0, 100);
+            revision = askUserOptionBetweenNumbers("Enter the revision probability: ", 0, 100);
+            rejection = askUserOptionBetweenNumbers("Enter the rejection probability: ", 0, 100);
+
+            if (acceptance + revision + rejection != 100){
+                System.out.println("\nThe percentages aren't correct, try again.\n");
+            }
+
+        } while (acceptance + revision + rejection != 100);
+
+        trial.setRevisionProbability(acceptance);
+        trial.setRevisionProbability(revision);
+        trial.setRejectionProbability(rejection);
+
+
+
+        return trial;
+
+    }
 
     private char askUserOptionBetweenLetters (String text, char min, char max){
 

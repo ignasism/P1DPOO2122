@@ -3,12 +3,12 @@ package Business;
 public class Trial {
     private String trialName;
     private String publicationName;
-    private int quartile;
+    private String quartile;
     private int acceptanceProbability;
     private int revisionProbability;
     private int rejectionProbability;
 
-    public Trial(String trialName, String publicationName, int quartile, int acceptanceProbability, int revisionProbability, int rejectionProbability) {
+    public Trial(String trialName, String publicationName, String quartile, int acceptanceProbability, int revisionProbability, int rejectionProbability) {
         this.trialName = trialName;
         this.publicationName = publicationName;
         this.quartile = quartile;
@@ -36,11 +36,11 @@ public class Trial {
         this.publicationName = publicationName;
     }
 
-    public int getQuartile() {
+    public String getQuartile() {
         return quartile;
     }
 
-    public void setQuartile(int quartile) {
+    public void setQuartile(String quartile) {
         this.quartile = quartile;
     }
 
