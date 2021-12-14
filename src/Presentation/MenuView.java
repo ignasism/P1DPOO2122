@@ -1,6 +1,7 @@
 package Presentation;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import Business.MenuController;
@@ -75,45 +76,57 @@ public class MenuView {
         return option;
     }
 
-    public Trial createTrial(){
+    public Trial createTrial(ArrayList<Trial> trials){
 
         Trial trial = new Trial();
         Scanner scanner = new Scanner(System.in);
 
+        boolean trial_exists;
         int revision, rejection, acceptance;
-        String quartile, journal_name;
+        String quartile, journal_name, trial_name;
 
         System.out.println("    --- Trial types ---\n");
         System.out.println("    1) Paper publication\n");
 
-        System.out.print("Enter the trial's name: ");
-        trial.setTrialName(scanner.nextLine());
+        // TRIAL NAME
+        do {
+            trial_exists = false;
+            System.out.print("Enter the trial's name: ");
+            trial_name = scanner.nextLine();
+            for (int i = 0; i < trials.size(); i++) {
+                if (trials.get(i).getTrialName().equals(trial_name)){
+                    System.out.println("\nTrial already exists, try again. \n");
+                    trial_exists = true;
+                }
+            }
+        }while (trial_exists);
+        trial.setTrialName(trial_name);
 
+        // JOURNAL NAME
         do {
             System.out.print("Enter the journal’s name: ");
             journal_name = scanner.nextLine();
-            if (journal_name.isEmpty() || journal_name.isBlank()) {
-                System.out.println("Journal's name is wrong, try again.\n");
+            if (journal_name == null || journal_name.isEmpty()) {
+                System.out.println("\nJournal's name is wrong, try again.\n");
             }
-        }while(journal_name.isEmpty() || journal_name.isBlank());
-        trial.setPublicationName(scanner.nextLine());
+        }while(journal_name == null || journal_name.isEmpty());
+        trial.setPublicationName(journal_name);
 
+        // JOURNAL QUARTILE
         do {
-
             System.out.print("Enter the journal’s quartile: ");
             quartile = scanner.nextLine();
 
             if (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4")){
-                System.out.println("Wrong quartile, try again.\n");
+                System.out.println("\nWrong quartile, try again.\n");
             }
 
         }while (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4"));
-
         trial.setQuartile(quartile);
         //System.out.println(trial.getQuartile());
 
+        // PERCENTAGES
         do {
-
             acceptance = askUserOptionBetweenNumbers("Enter the acceptance probability: ", 0, 100);
             revision = askUserOptionBetweenNumbers("Enter the revision probability: ", 0, 100);
             rejection = askUserOptionBetweenNumbers("Enter the rejection probability: ", 0, 100);
@@ -123,12 +136,9 @@ public class MenuView {
             }
 
         } while (acceptance + revision + rejection != 100);
-
         trial.setRevisionProbability(acceptance);
         trial.setRevisionProbability(revision);
         trial.setRejectionProbability(rejection);
-
-
 
         return trial;
 

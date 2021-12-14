@@ -3,9 +3,12 @@ package Business;
 import Presentation.MenuView;
 import Presentation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuController {
 
-    public void manageTrials(){
+    public void manageTrials(ArrayList<Trial> trials){
 
         int option1;
         MenuView menuView = new MenuView();
@@ -16,7 +19,8 @@ public class MenuController {
 
             if (option1 == 'a') {
                 // Create trial
-                trial = menuView.createTrial();
+                trial = menuView.createTrial(trials);
+                trials.add(trial);
 
             } else if (option1 == 'b') {
                 // List trial
@@ -57,6 +61,8 @@ public class MenuController {
     public MenuController() {
 
         MenuView menuView = new MenuView();
+        ArrayList<Trial> trials = new ArrayList<>();
+
 
         int role = menuView.getRole();
 
@@ -70,7 +76,7 @@ public class MenuController {
 
                 if (option == 1) {
                     // MANAGE TRIALS
-                    manageTrials();
+                    manageTrials(trials);
 
                 } else if (option == 2) {
                     // MANGE EDITIONS
