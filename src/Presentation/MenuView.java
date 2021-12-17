@@ -136,12 +136,76 @@ public class MenuView {
             }
 
         } while (acceptance + revision + rejection != 100);
-        trial.setRevisionProbability(acceptance);
+        trial.setAcceptanceProbability(acceptance);
         trial.setRevisionProbability(revision);
         trial.setRejectionProbability(rejection);
 
         return trial;
 
+    }
+
+    public void listTrials (ArrayList<Trial> trials){
+
+        int option;
+
+        if (trials.isEmpty()){
+            System.out.println("\nThere are no trials currently.");
+        }else {
+            System.out.println("\nHere are the current trials, do you want to see more details or go back?\n");
+
+            for (int i = 0; i < trials.size(); i++) {
+                System.out.println(i + 1 + ") " + trials.get(i).getTrialName());
+            }
+            System.out.println();
+            System.out.println(trials.size()+1 + ") Back");
+            System.out.println();
+
+            option = askUserOptionBetweenNumbers("Enter an option: ", 1, trials.size() + 1);
+
+            System.out.println(option);
+            System.out.println("Trial size: " + trials.size());
+
+            if (option >= 1 && option <= trials.size()){
+                System.out.println("\nTrial: " + trials.get(option - 1).getTrialName());
+                System.out.println("Journal: " + trials.get(option - 1).getPublicationName() + " (" + trials.get(option - 1).getQuartile() + ")");
+                System.out.println("Chances: " + trials.get(option - 1).getAcceptanceProbability() + "% acceptance, " + trials.get(option - 1).getRevisionProbability() + "% revision, " + trials.get(option - 1).getRejectionProbability() + "% rejection\n");
+            }
+
+        }
+    }
+
+    public  ArrayList<Trial> deleteTrials (ArrayList<Trial> trials) {
+        int option, trial_deleted_int;
+        String trial_deleted;
+        Scanner scanner = new Scanner(System.in);
+
+        if (trials.isEmpty()) {
+            System.out.println("\nThere are no trials currently.");
+        } else {
+            System.out.println("\nWhich trial do you want to delete?\n");
+
+            for (int i = 0; i < trials.size(); i++) {
+                System.out.println(i + 1 + ") " + trials.get(i).getTrialName());
+            }
+            System.out.println();
+            System.out.println(trials.size() + 1 + ") Back");
+            System.out.println();
+
+            option = askUserOptionBetweenNumbers("Enter an option: ", 1, trials.size() + 1);
+
+            if (option >= 1 && option <= trials.size()) {
+                System.out.println("Enter the trial’s name for confirmation: ");
+                trial_deleted = scanner.nextLine();
+                //trial_deleted_int = Integer.parseInt(trial_deleted);
+                if (trial_deleted.equals(trials.get(option-1).getTrialName())){
+                    trials.remove(option-1);
+                    System.out.println("The trial was successfully deleted.\n");
+                }else{
+                    System.out.println("The trial wasn't deleted, try again.\n");
+                }
+            }
+        }
+        return trials;
     }
 
     private char askUserOptionBetweenLetters (String text, char min, char max){

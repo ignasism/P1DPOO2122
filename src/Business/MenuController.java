@@ -24,9 +24,11 @@ public class MenuController {
 
             } else if (option1 == 'b') {
                 // List trial
+                menuView.listTrials(trials);
 
             } else if (option1 == 'c') {
                 // Delete trial
+                trials = menuView.deleteTrials(trials);
 
             }
 
