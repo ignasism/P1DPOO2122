@@ -9,72 +9,134 @@ public class TrialsManager {
         ArrayList<Trial> trialList;
     }
 
+    public Trial createTrial(ArrayList<Trial> trials){
 
-
-
-
-    public void createTrial(){
+        Trial trial = new Trial();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("   --- Trial types ---   ");
-        System.out.println("\n   1) Paper publication");
+        boolean trial_exists;
+        int revision, rejection, acceptance;
+        String quartile, journal_name, trial_name;
 
-        switch (askUserOptionBetweenNumbers("\nEnter the trial's type: ",1,1)){
-            case 1:
-                //Trials de tipo Paper publication
-                int error = 0;
-                do {
-                    System.out.println("Enter the trial's name: ");
-                    String trialName = scanner.nextLine();
-                    if (trialName==null){
-                        error=1;
-                    }
+        System.out.println("    --- Trial types ---\n");
+        System.out.println("    1) Paper publication\n");
 
-                    System.out.println("Enter the journal's name: ");
-                    String journalName = scanner.nextLine();
-                    if (journalName==null){
-                        error=1;
-                    }
+        // TRIAL NAME
+        do {
+            trial_exists = false;
+            System.out.print("Enter the trial's name: ");
+            trial_name = scanner.nextLine();
+            for (int i = 0; i < trials.size(); i++) {
+                if (trials.get(i).getTrialName().equals(trial_name)){
+                    System.out.println("\nTrial already exists, try again. \n");
+                    trial_exists = true;
+                }
+            }
+        }while (trial_exists);
+        trial.setTrialName(trial_name);
 
-                    System.out.println("Enter the journal's quartile: ");
-                    char[] line = scanner.next().toCharArray();
-                    if (line.length==2){
-                        if (line[0]=='Q'){
-                            if (line[1]>=0 && line[1]<=4){
-                                int quartile = line[1];
-                            } else{ error=1; }
-                        } else { error=1; }
-                    } else { error=1; }
+        // JOURNAL NAME
+        do {
+            System.out.print("Enter the journal’s name: ");
+            journal_name = scanner.nextLine();
+            if (journal_name == null || journal_name.isEmpty()) {
+                System.out.println("\nJournal's name is wrong, try again.\n");
+            }
+        }while(journal_name == null || journal_name.isEmpty());
+        trial.setPublicationName(journal_name);
 
-                    System.out.println("Enter the acceptance probability");
+        // JOURNAL QUARTILE
+        do {
+            System.out.print("Enter the journal’s quartile: ");
+            quartile = scanner.nextLine();
 
+            if (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4")){
+                System.out.println("\nWrong quartile, try again.\n");
+            }
 
+        }while (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4"));
+        trial.setQuartile(quartile);
+        //System.out.println(trial.getQuartile());
 
+        // PERCENTAGES
+        do {
+            acceptance = askUserOptionBetweenNumbers("Enter the acceptance probability: ", 0, 100);
+            revision = askUserOptionBetweenNumbers("Enter the revision probability: ", 0, 100);
+            rejection = askUserOptionBetweenNumbers("Enter the rejection probability: ", 0, 100);
 
+            if (acceptance + revision + rejection != 100){
+                System.out.println("\nThe percentages aren't correct, try again.\n");
+            }
 
-                } while (error == 0);
+        } while (acceptance + revision + rejection != 100);
+        trial.setAcceptanceProbability(acceptance);
+        trial.setRevisionProbability(revision);
+        trial.setRejectionProbability(rejection);
 
+        return trial;
 
+    }
+    public void listTrials (ArrayList<Trial> trials){
 
+        int option;
 
+        if (trials.isEmpty()){
+            System.out.println("\nThere are no trials currently.");
+        }else {
+            System.out.println("\nHere are the current trials, do you want to see more details or go back?\n");
 
+            for (int i = 0; i < trials.size(); i++) {
+                System.out.println(i + 1 + ") " + trials.get(i).getTrialName());
+            }
+            System.out.println();
+            System.out.println(trials.size()+1 + ") Back");
+            System.out.println();
 
+            option = askUserOptionBetweenNumbers("Enter an option: ", 1, trials.size() + 1);
 
+            System.out.println(option);
+            System.out.println("Trial size: " + trials.size());
 
-
-
-
-
-
-                break;
-            default:
-                System.out.println("Nunca deberia entrar aqui, pero bueno, lo pongo por si acaso");
-                break;
-
-
+            if (option >= 1 && option <= trials.size()){
+                System.out.println("\nTrial: " + trials.get(option - 1).getTrialName());
+                System.out.println("Journal: " + trials.get(option - 1).getPublicationName() + " (" + trials.get(option - 1).getQuartile() + ")");
+                System.out.println("Chances: " + trials.get(option - 1).getAcceptanceProbability() + "% acceptance, " + trials.get(option - 1).getRevisionProbability() + "% revision, " + trials.get(option - 1).getRejectionProbability() + "% rejection\n");
+            }
 
         }
+    }
+    public  ArrayList<Trial> deleteTrials (ArrayList<Trial> trials) {
+        int option, trial_deleted_int;
+        String trial_deleted;
+        Scanner scanner = new Scanner(System.in);
 
+        if (trials.isEmpty()) {
+            System.out.println("\nThere are no trials currently.");
+        } else {
+            System.out.println("\nWhich trial do you want to delete?\n");
+
+            for (int i = 0; i < trials.size(); i++) {
+                System.out.println(i + 1 + ") " + trials.get(i).getTrialName());
+            }
+            System.out.println();
+            System.out.println(trials.size() + 1 + ") Back");
+            System.out.println();
+
+            option = askUserOptionBetweenNumbers("Enter an option: ", 1, trials.size() + 1);
+
+            if (option >= 1 && option <= trials.size()) {
+                System.out.println("Enter the trial’s name for confirmation: ");
+                trial_deleted = scanner.nextLine();
+                //trial_deleted_int = Integer.parseInt(trial_deleted);
+                if (trial_deleted.equals(trials.get(option-1).getTrialName())){
+                    trials.remove(option-1);
+                    System.out.println("The trial was successfully deleted.\n");
+                }else{
+                    System.out.println("The trial wasn't deleted, try again.\n");
+                }
+            }
+        }
+        return trials;
     }
 
     private int askUserOptionBetweenNumbers(String text, int min, int max){
