@@ -13,7 +13,7 @@ public class MenuView {
     }
 
 
-    public int getRole() {
+    public char getRole() {
 
         Scanner scanner = new Scanner(System.in);
         char input;
@@ -75,11 +75,6 @@ public class MenuView {
         option = askUserOptionBetweenLetters("Enter an option: ", 'a', 'e');
         return option;
     }
-
-
-
-
-
 
 
     private char askUserOptionBetweenLetters (String text, char min, char max){

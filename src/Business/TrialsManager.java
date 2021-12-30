@@ -5,11 +5,24 @@ import java.util.Scanner;
 
 public class TrialsManager {
 
+    private ArrayList<Trial> trials;
+
     public TrialsManager() {
-        ArrayList<Trial> trialList;
+        this.trials = new ArrayList<>();
+        trials.add(new Trial("Submitting to OOPD", "Observatory Of Programming Developments", "2", 20, 50, 30));
+        trials.add(new Trial("Publishing to APDS", "Observatory Of Programming Developments", "4", 40, 40, 20));
+        trials.add(new Trial("Submitting to LSJournal", "Observatory Of Programming Developments", "3", 35, 25, 40));
     }
 
-    public Trial createTrial(ArrayList<Trial> trials){
+    public ArrayList<Trial> getTrialList() {
+        return trials;
+    }
+
+    public void setTrialList(ArrayList<Trial> trialList) {
+        this.trials = trialList;
+    }
+
+    public void createTrial(){
 
         Trial trial = new Trial();
         Scanner scanner = new Scanner(System.in);
@@ -73,10 +86,10 @@ public class TrialsManager {
         trial.setRevisionProbability(revision);
         trial.setRejectionProbability(rejection);
 
-        return trial;
-
+        trials.add(trial);
     }
-    public void listTrials (ArrayList<Trial> trials){
+
+    public void listTrials (){
 
         int option;
 
@@ -105,7 +118,8 @@ public class TrialsManager {
 
         }
     }
-    public  ArrayList<Trial> deleteTrials (ArrayList<Trial> trials) {
+
+    public void deleteTrials () {
         int option, trial_deleted_int;
         String trial_deleted;
         Scanner scanner = new Scanner(System.in);
@@ -136,7 +150,6 @@ public class TrialsManager {
                 }
             }
         }
-        return trials;
     }
 
     private int askUserOptionBetweenNumbers(String text, int min, int max){

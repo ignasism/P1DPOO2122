@@ -8,12 +8,19 @@ import java.util.List;
 
 public class MenuController {
 
+    private final MenuView menuView;
+    private final TrialsManager trialsManager;
+    private final EditionsManager editionsManager;
+
     public MenuController() {
+        menuView = new MenuView();
+        trialsManager = new TrialsManager();
+        editionsManager = new EditionsManager(trialsManager.getTrialList());
+    }
 
-        MenuView menuView = new MenuView();
-        ArrayList<Trial> trials = new ArrayList<>();
+    public void start (){
 
-        int role = menuView.getRole();
+        char role = menuView.getRole();
 
         if (role == 'A'){
             // COMPOSER
@@ -25,7 +32,7 @@ public class MenuController {
 
                 if (option == 1) {
                     // MANAGE TRIALS
-                    manageTrials(trials);
+                    manageTrials();
 
                 } else if (option == 2) {
                     // MANGE EDITIONS
@@ -41,31 +48,26 @@ public class MenuController {
 
 
         }
-
     }
 
-    public void manageTrials(ArrayList<Trial> trials){
+    public void manageTrials(){
 
         int option1;
-        MenuView menuView = new MenuView();
-        TrialsManager trialsManager = new TrialsManager();
-        Trial trial = new Trial();
 
         do {
             option1 = menuView.subManageTrials();
 
             if (option1 == 'a') {
                 // Create trial
-                trial = trialsManager.createTrial(trials);
-                trials.add(trial);
+                trialsManager.createTrial();
 
             } else if (option1 == 'b') {
                 // List trial
-                trialsManager.listTrials(trials);
+                trialsManager.listTrials();
 
             } else if (option1 == 'c') {
                 // Delete trial
-                trials = trialsManager.deleteTrials(trials);
+                trialsManager.deleteTrials();
             }
 
         } while (option1 != 'd');
@@ -75,16 +77,13 @@ public class MenuController {
     public void manageEditions(){
 
         int option2;
-        MenuView menuView = new MenuView();
-        EditionsManager editionsManager = new EditionsManager();
-        Edition edition = new Edition();
 
         do {
             option2 = menuView.subManageEditions();
 
             if (option2 == 'a') {
                 // Create edition
-                editionsManager.createEdition(edition);
+
             } else if (option2 == 'b') {
                 // List edition
 
@@ -97,12 +96,5 @@ public class MenuController {
 
         } while (option2 != 'e');
     }
-
-
-
-
-
-
-
 
 }
