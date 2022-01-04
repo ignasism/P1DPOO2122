@@ -83,13 +83,14 @@ public class MenuController {
 
             if (option2 == 'a') {
                 // Create edition
+                editionsManager.createEdition();
 
             } else if (option2 == 'b') {
                 // List edition
-
+                editionsManager.listEditions();
             } else if (option2 == 'c') {
                 // Duplicate edition
-
+                editionsManager.duplicateEditions();
             } else if (option2 == 'd'){
                 // Delete edition
             }
