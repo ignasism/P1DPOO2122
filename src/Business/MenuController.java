@@ -1,10 +1,8 @@
 package Business;
 
 import Presentation.MenuView;
-import Presentation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
 public class MenuController {
 
@@ -15,10 +13,14 @@ public class MenuController {
     public MenuController() {
         menuView = new MenuView();
         trialsManager = new TrialsManager();
+        trialsManager.loadTrialsListFromCSV();
         editionsManager = new EditionsManager(trialsManager.getTrialList());
     }
 
     public void start (){
+
+
+
 
         char role = menuView.getRole();
 
@@ -40,11 +42,35 @@ public class MenuController {
                 }
 
             }while (option != 3);
+            trialsManager.copyTrialsListToCSV();
+            editionsManager.copyEditionsListToCSV();
 
             System.out.println("\nShutting down...");
 
         }else if (role == 'B'){
             // Conductor
+            boolean foundEdition = false;
+            int editionId=0;
+            System.out.println("Entering execution mode...");
+
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+
+            for (int i = 0; i < editionsManager.getEditionsList().size(); i++) {
+                if (editionsManager.getEditionsList().get(i).getEditionYear() == year){
+                    System.out.println("We got the year");
+                    foundEdition = true;
+                    editionId = i;
+                }
+            }
+
+            if (foundEdition) {
+                ExecutionManager executionManager = new ExecutionManager();
+                executionManager.executeEdition(editionsManager.getEditionsList().get(editionId));
+            } else {
+                System.out.println("No edition is defined for the current year (" + year + ").");
+            }
+
+
 
 
         }
@@ -93,6 +119,7 @@ public class MenuController {
                 editionsManager.duplicateEditions();
             } else if (option2 == 'd'){
                 // Delete edition
+                editionsManager.deleteEdition();
             }
 
         } while (option2 != 'e');

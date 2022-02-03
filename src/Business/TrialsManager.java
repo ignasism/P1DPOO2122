@@ -1,17 +1,22 @@
 package Business;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TrialsManager {
 
     private ArrayList<Trial> trials;
+    File file = new File("TrialList.csv");
 
     public TrialsManager() {
         this.trials = new ArrayList<>();
-        trials.add(new Trial("Submitting to OOPD", "Observatory Of Programming Developments", "2", 20, 50, 30));
-        trials.add(new Trial("Publishing to APDS", "Observatory Of Programming Developments", "4", 40, 40, 20));
-        trials.add(new Trial("Submitting to LSJournal", "Observatory Of Programming Developments", "3", 35, 25, 40));
+        //trials.add(new Trial("Submitting to OOPD", "Observatory Of Programming Developments", 2, 20, 50, 30));
+        //trials.add(new Trial("Publishing to APDS", "Observatory Of Programming Developments", 4, 40, 40, 20));
+        //trials.add(new Trial("Submitting to LSJournal", "Observatory Of Programming Developments", 3, 35, 25, 40));
     }
 
     public ArrayList<Trial> getTrialList() {
@@ -27,9 +32,9 @@ public class TrialsManager {
         Trial trial = new Trial();
         Scanner scanner = new Scanner(System.in);
 
-        boolean trial_exists;
-        int revision, rejection, acceptance;
-        String quartile, journal_name, trial_name;
+        boolean trial_exists, check=false;
+        int revision, rejection, acceptance,quartile;
+        String journal_name, trial_name, sc;
 
         System.out.println("    --- Trial types ---\n");
         System.out.println("    1) Paper publication\n");
@@ -61,14 +66,18 @@ public class TrialsManager {
         // JOURNAL QUARTILE
         do {
             System.out.print("Enter the journal’s quartile: ");
-            quartile = scanner.nextLine();
+            sc = scanner.nextLine();
 
-            if (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4")){
+            if (!sc.equals("Q1") && !sc.equals("Q2") && !sc.equals("Q3") && !sc.equals("Q4")){
                 System.out.println("\nWrong quartile, try again.\n");
+                check=false;
+            } else  {
+                check =true;
             }
 
-        }while (!quartile.equals("Q1") && !quartile.equals("Q2") && !quartile.equals("Q3") && !quartile.equals("Q4"));
-        trial.setQuartile(quartile);
+        }while (!check);
+
+        trial.setQuartile(getValueFromQuartile(sc));
         //System.out.println(trial.getQuartile());
 
         // PERCENTAGES
@@ -87,6 +96,16 @@ public class TrialsManager {
         trial.setRejectionProbability(rejection);
 
         trials.add(trial);
+    }
+
+    private int getValueFromQuartile(String sc) {
+        return switch (sc) {
+            case "Q1" -> 1;
+            case "Q2" -> 2;
+            case "Q3" -> 3;
+            case "Q4" -> 4;
+            default -> -1;
+        };
     }
 
     public void listTrials (){
@@ -174,6 +193,37 @@ public class TrialsManager {
 
         } while (option<min || option>max);
         return option;
+    }
+
+    public void loadTrialsListFromCSV(){
+
+        try{
+
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()){
+                String line = scanner.nextLine();
+                Trial trial = new Trial();
+                trial.setValuesFromCSV(line);
+                trials.add(trial);
+            }
+            System.out.println("Trials loaded successfully");
+        } catch (FileNotFoundException e){
+            System.out.println("Error with file, couldn't load trials");
+        }
+    }
+
+
+    public void copyTrialsListToCSV(){
+        try{
+            FileWriter fw = new FileWriter(file, false);
+            for(Trial trial: trials){
+                fw.write(trial.toCSV());
+                fw.write(System.lineSeparator());
+            }
+            fw.close();
+        }catch (IOException  e){
+            System.out.println(e);
+        }
     }
 
 }

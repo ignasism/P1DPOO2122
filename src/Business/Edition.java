@@ -1,5 +1,6 @@
 package Business;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Edition {
@@ -7,16 +8,38 @@ public class Edition {
     private int editionYear;
     private int numPlayers;
     private int numTrials;
+    private int trialExecuting=0;
     private ArrayList<Trial> trials;
+    private ArrayList<Player> playerList;
 
-    public Edition(int editionYear, int numPlayers, int numTrials, ArrayList<Trial> trials) {
+    public Edition(int editionYear, int numPlayers, int numTrials, ArrayList<Trial> trials, ArrayList<Player> playerList, int trialExecuting) {
         this.editionYear = editionYear;
         this.numPlayers = numPlayers;
         this.numTrials = numTrials;
         this.trials = trials;
+        this.playerList = playerList;
+        this.trialExecuting = trialExecuting;
     }
 
     public Edition() {
+        this.trials = new ArrayList<>();
+        this.playerList = new ArrayList<>();
+    }
+
+    public int getTrialExecuting() {
+        return trialExecuting;
+    }
+
+    public void setTrialExecuting(int trialExecuting) {
+        this.trialExecuting = trialExecuting;
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(ArrayList<Player> playerList) {
+        this.playerList = playerList;
     }
 
     public int getEditionYear() {
@@ -51,4 +74,92 @@ public class Edition {
         this.trials = trials;
     }
 
+    public void printDetails(){
+        System.out.println("\nYear: " + editionYear);
+        System.out.println("Players: " + numPlayers);
+
+        for (int i = 0; i < numTrials; i++) {
+            System.out.println("    " + (i+1) + "- " + trials.get(i).getTrialNameDetail());
+        }
+    }
+
+    public boolean isAnyoneAlive(){
+
+        for (Player player : playerList) {
+            if (player.isAlive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int howManyFinishers(){
+        int count=0;
+        for (Player player : playerList) {
+            if (player.isAlive()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public String toCSV(){
+        return editionYear + ";" + numPlayers + ";" + playersListToCSV() + ";" + numTrials + ";" + trialsListToCSV() + ";" + trialExecuting;
+    }
+
+    public String playersListToCSV(){
+        StringBuilder stringPlayers = new StringBuilder();
+
+        if (playerList.size()==0){
+            return stringPlayers.toString();
+        }
+
+        for (int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i)==playerList.get(playerList.size()-1)){
+                stringPlayers.append(playerList.get(i).toCSV());
+            } else {
+                stringPlayers.append(playerList.get(i).toCSV()).append(":");
+            }
+        }
+        return stringPlayers.toString();
+    }
+
+    public String trialsListToCSV(){
+        StringBuilder stringTrials = new StringBuilder();
+
+        if (trials.size()==0){
+            return stringTrials.toString();
+        }
+
+        for (int i = 0; i < trials.size(); i++) {
+            if (trials.get(i)==trials.get(trials.size()-1)){
+                stringTrials.append(trials.get(i).toCSV());
+            } else {
+                stringTrials.append(trials.get(i).toCSV()).append(":");
+            }
+        }
+        return stringTrials.toString();
+    }
+
+    public void setEditionValuesFromCSV(String line) {
+        String[] values = line.split(";");
+        editionYear = Integer.parseInt(values[0]);
+        numPlayers = Integer.parseInt(values[1]);
+
+        String[] playerValues = values[2].split(":");
+        for (int i = 0; i < playerValues.length; i++) {
+            ArrayList<Player> auxPlayer = new ArrayList<>();
+            auxPlayer.get(i).setPlayerValuesFromCSV(playerValues[i]);
+            playerList.add(auxPlayer);
+        }
+
+
+
+
+
+
+
+
+
+    }
 }
