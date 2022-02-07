@@ -81,6 +81,7 @@ public class Edition {
         for (int i = 0; i < numTrials; i++) {
             System.out.println("    " + (i+1) + "- " + trials.get(i).getTrialNameDetail());
         }
+
     }
 
     public boolean isAnyoneAlive(){
@@ -115,7 +116,7 @@ public class Edition {
         }
 
         for (int i = 0; i < playerList.size(); i++) {
-            if (playerList.get(i)==playerList.get(playerList.size()-1)){
+            if (i==playerList.size()-1){
                 stringPlayers.append(playerList.get(i).toCSV());
             } else {
                 stringPlayers.append(playerList.get(i).toCSV()).append(":");
@@ -132,7 +133,7 @@ public class Edition {
         }
 
         for (int i = 0; i < trials.size(); i++) {
-            if (trials.get(i)==trials.get(trials.size()-1)){
+            if (i==trials.size()-1){
                 stringTrials.append(trials.get(i).toCSV());
             } else {
                 stringTrials.append(trials.get(i).toCSV()).append(":");
@@ -147,19 +148,26 @@ public class Edition {
         numPlayers = Integer.parseInt(values[1]);
 
         String[] playerValues = values[2].split(":");
-        for (int i = 0; i < playerValues.length; i++) {
-            ArrayList<Player> auxPlayer = new ArrayList<>();
-            auxPlayer.get(i).setPlayerValuesFromCSV(playerValues[i]);
-            playerList.add(auxPlayer);
+        //System.out.println("length value of player values: " + playerValues.length);
+        //System.out.println("value of only element of player value: " + playerValues[0] + " :");
+        if (!playerValues[0].equals("")) {
+            for (int i = 0; i < playerValues.length; i++) {
+                Player player = new Player();
+                player.setPlayerValuesFromCSV(playerValues[i]);
+                playerList.add(player);
+            }
         }
 
+        numTrials = Integer.parseInt(values[3]);
 
+        String[] trialValues = values[4].split(":");
+        for (int i = 0; i < trialValues.length; i++) {
+            Trial trial = new Trial();
+            trial.setValuesFromCSV(trialValues[i]);
+            trials.add(trial);
+        }
 
-
-
-
-
-
+        trialExecuting = Integer.parseInt(values[5]);
 
     }
 }

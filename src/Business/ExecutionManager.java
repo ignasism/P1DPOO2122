@@ -43,6 +43,7 @@ public class ExecutionManager {
 
             if ((editionToExecute.getNumTrials()==editionToExecute.getTrialExecuting())) {
                 System.out.println("\nTHE TRIALS 2021 HAVE ENDED " + editionToExecute.howManyFinishers() + " PLAYERS WON");
+
             } else {
                 continueExecution = askUserYesNo();
             }

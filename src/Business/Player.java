@@ -47,6 +47,17 @@ public class Player {
         String[] values = line.split("-");
         name = values[0];
         investigationPoints = Integer.parseInt(values[1]);
-        alive = Boolean.getBoolean(values[2]);
+        //System.out.println("Value of values[2]: " + values[2]);
+        //System.out.println("Before: " + setTrueFalseFromString(values[2]));
+        alive = setTrueFalseFromString(values[2]);
+        //System.out.println("After: " + alive);
     }
+
+    public boolean setTrueFalseFromString(String line){
+        return switch (line) {
+            case "true" -> true;
+            default -> false;
+        };
+    }
+
 }

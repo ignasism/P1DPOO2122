@@ -9,18 +9,19 @@ public class MenuController {
     private final MenuView menuView;
     private final TrialsManager trialsManager;
     private final EditionsManager editionsManager;
+    private final ExecutionManager executionManager;
 
     public MenuController() {
         menuView = new MenuView();
         trialsManager = new TrialsManager();
         trialsManager.loadTrialsListFromCSV();
         editionsManager = new EditionsManager(trialsManager.getTrialList());
+        editionsManager.loadEditionsListFromCSV();
+        executionManager = new ExecutionManager();
+
     }
 
     public void start (){
-
-
-
 
         char role = menuView.getRole();
 
@@ -64,14 +65,14 @@ public class MenuController {
             }
 
             if (foundEdition) {
-                ExecutionManager executionManager = new ExecutionManager();
+
                 executionManager.executeEdition(editionsManager.getEditionsList().get(editionId));
             } else {
                 System.out.println("No edition is defined for the current year (" + year + ").");
             }
 
 
-
+            editionsManager.copyEditionsListToCSV();
 
         }
     }

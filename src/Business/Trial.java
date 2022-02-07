@@ -78,6 +78,7 @@ public class Trial {
 
     public void setValuesFromCSV(String line){
         String[] values = line.split("_");
+        System.out.println("line: " + line);
         trialName = values[0];
         publicationName = values[1];
         quartile = Integer.parseInt(values[2]);

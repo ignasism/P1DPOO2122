@@ -39,9 +39,8 @@ public class EditionsManager {
         int year, num_players, num_trials;
         boolean error = false;
 
-        year = askUserOptionBetweenNumbers("\nEnter the edition’s year: " , 2022, 999999999);
-
         do {
+            year = askUserOptionBetweenNumbers("\nEnter the edition’s year: " , 2022, 999999999);
             for (Edition value : editionsList) {
                 if (value.getEditionYear() == year) {
                     System.out.println("This edition already exists!");
@@ -190,6 +189,26 @@ public class EditionsManager {
 
     }
 
+    public void printInfoYearEdition(int year){
+        int aux=0;
+        for (int i = 0; i < editionsList.size(); i++) {
+            if (year==editionsList.get(i).getEditionYear()){
+                aux=i;
+            }
+        }
+        editionsList.get(aux).printDetails();
+
+        for (int i = 0; i < editionsList.get(aux).getPlayerList().size(); i++) {
+            System.out.println("Player name:" + editionsList.get(aux).getPlayerList().get(i).getName());
+            System.out.println("Player PI: " + editionsList.get(aux).getPlayerList().get(i).getInvestigationPoints());
+            System.out.println("Is alive? " + editionsList.get(aux).getPlayerList().get(i).isAlive());
+        }
+
+
+
+
+    }
+
 
     public void copyEditionsListToCSV(){
         try{
@@ -205,6 +224,21 @@ public class EditionsManager {
         }
     }
 
+    public boolean checkForRepeatedEditions(Edition auxedition){
+        int aux=0;
+        for (int i = 0; i < editionsList.size(); i++) {
+            if (editionsList.get(i).getTrialExecuting()>0){
+                aux=i;
+            }
+        }
+        if (editionsList.get(aux).getEditionYear()==auxedition.getEditionYear()){
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     public void loadEditionsListFromCSV(){
 
         try{
@@ -216,6 +250,8 @@ public class EditionsManager {
                 editionsList.add(edition);
             }
             System.out.println("Editions loaded successfully");
+            System.out.println("Aqui las printo: ");
+            printInfoYearEdition(2022);
         } catch (FileNotFoundException e){
             System.out.println("Error with file, couldn't load trials");
         }
