@@ -1,5 +1,6 @@
 package Business;
 
+import Persistance.CSVManager;
 import Presentation.MenuView;
 
 import java.util.Calendar;
@@ -11,10 +12,11 @@ public class MenuController {
     private final EditionsManager editionsManager;
     private final ExecutionManager executionManager;
 
+
     public MenuController() {
         menuView = new MenuView();
         trialsManager = new TrialsManager();
-        trialsManager.loadTrialsListFromCSV();
+
         editionsManager = new EditionsManager(trialsManager.getTrialList());
         editionsManager.loadEditionsListFromCSV();
         executionManager = new ExecutionManager();

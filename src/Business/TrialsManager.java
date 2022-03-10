@@ -1,5 +1,7 @@
 package Business;
 
+import Persistance.CSVManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -10,10 +12,12 @@ import java.util.Scanner;
 public class TrialsManager {
 
     private ArrayList<Trial> trials;
-    File file = new File("TrialList.csv");
+    CSVManager csvManager = new CSVManager();
+
 
     public TrialsManager() {
         this.trials = new ArrayList<>();
+        csvManager.loadTrialsListFromCSV(trials);
         //trials.add(new Trial("Submitting to OOPD", "Observatory Of Programming Developments", 2, 20, 50, 30));
         //trials.add(new Trial("Publishing to APDS", "Observatory Of Programming Developments", 4, 40, 40, 20));
         //trials.add(new Trial("Submitting to LSJournal", "Observatory Of Programming Developments", 3, 35, 25, 40));
@@ -117,14 +121,7 @@ public class TrialsManager {
         }else {
             System.out.println("\nHere are the current trials, do you want to see more details or go back?\n");
 
-            for (int i = 0; i < trials.size(); i++) {
-                System.out.println(i + 1 + ") " + trials.get(i).getTrialName());
-            }
-            System.out.println();
-            System.out.println(trials.size()+1 + ") Back");
-            System.out.println();
-
-            option = askUserOptionBetweenNumbers("Enter an option: ", 1, trials.size() + 1);
+            option = getOption();
 
             System.out.println(option);
             System.out.println("Trial size: " + trials.size());
@@ -138,8 +135,21 @@ public class TrialsManager {
         }
     }
 
+    private int getOption() {
+        int option;
+        for (int i = 0; i < trials.size(); i++) {
+            System.out.println(i + 1 + ") " + trials.get(i).getTrialName());
+        }
+        System.out.println();
+        System.out.println(trials.size()+1 + ") Back");
+        System.out.println();
+
+        option = askUserOptionBetweenNumbers("Enter an option: ", 1, trials.size() + 1);
+        return option;
+    }
+
     public void deleteTrials () {
-        int option, trial_deleted_int;
+        int option;
         String trial_deleted;
         Scanner scanner = new Scanner(System.in);
 
@@ -148,14 +158,7 @@ public class TrialsManager {
         } else {
             System.out.println("\nWhich trial do you want to delete?\n");
 
-            for (int i = 0; i < trials.size(); i++) {
-                System.out.println(i + 1 + ") " + trials.get(i).getTrialName());
-            }
-            System.out.println();
-            System.out.println(trials.size() + 1 + ") Back");
-            System.out.println();
-
-            option = askUserOptionBetweenNumbers("Enter an option: ", 1, trials.size() + 1);
+            option = getOption();
 
             if (option >= 1 && option <= trials.size()) {
                 System.out.println("Enter the trial’s name for confirmation: ");
@@ -183,7 +186,7 @@ public class TrialsManager {
 
             try {
                 option = Integer.parseInt(input);
-            } catch (NumberFormatException excepcion) {
+            } catch (NumberFormatException exception) {
                 option = -1;
             }
 
@@ -195,35 +198,7 @@ public class TrialsManager {
         return option;
     }
 
-    public void loadTrialsListFromCSV(){
-
-        try{
-
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()){
-                String line = scanner.nextLine();
-                Trial trial = new Trial();
-                trial.setValuesFromCSV(line);
-                trials.add(trial);
-            }
-            System.out.println("Trials loaded successfully");
-        } catch (FileNotFoundException e){
-            System.out.println("Error with file, couldn't load trials");
-        }
+    public void copyTrialsListToCSV() {
+        csvManager.copyTrialsListToCSV(trials);
     }
-
-
-    public void copyTrialsListToCSV(){
-        try{
-            FileWriter fw = new FileWriter(file, false);
-            for(Trial trial: trials){
-                fw.write(trial.toCSV());
-                fw.write(System.lineSeparator());
-            }
-            fw.close();
-        }catch (IOException  e){
-            System.out.println(e);
-        }
-    }
-
 }

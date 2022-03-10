@@ -35,7 +35,6 @@ public class EditionsManager {
     public void createEdition() {
 
         Edition edition = new Edition();
-        ArrayList<Trial> trials = new ArrayList<Trial>();
         int year, num_players, num_trials;
         boolean error = false;
 
