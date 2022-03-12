@@ -4,11 +4,21 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
+
+/**
+ * @version 1.0, 11/3/2022
+ * Classe que manega la funció d'executor
+ */
+
 public class ExecutionManager {
 
     public ExecutionManager() {
     }
 
+    /**
+     * Mètode per executar una edició
+     * @param editionToExecute edició la qual volem executar
+     */
     public void executeEdition(Edition editionToExecute){
 
         String continueExecution = "yes";
@@ -55,6 +65,12 @@ public class ExecutionManager {
 
     }
 
+    /**
+     * Mètode que s'encarrega de entrar un jugador
+     * @param edition edició a la qual ho volem fer
+     * @param i numero de la llista
+     * @param trial trial la qual ho volem fer
+     */
     public void submitPlayer(Edition edition, int i, int trial){
         int acc = edition.getTrials().get(edition.getTrialExecuting()).getAcceptanceProbability();
         int rev = edition.getTrials().get(edition.getTrialExecuting()).getRevisionProbability();
@@ -87,6 +103,11 @@ public class ExecutionManager {
 
     }
 
+    /**
+     * Mètode que s'encarrega de que no hi hagi un string buit
+     * @param text String
+     * @return retorna String
+     */
     public String askUserNonEmptyString(String text){
 
         Scanner scanner = new Scanner(System.in);
@@ -95,12 +116,20 @@ public class ExecutionManager {
         return scanner.next();
     }
 
+    /**
+     * Mètode que s'encarrega de printar la informació d'un jugador
+     * @param player jugador
+     */
     public void printPlayer(Player player){
-
         System.out.println("Player name: " + player.getName() + " , Player Investigation Points: " + player.getInvestigationPoints() + " , Is player alive? " + player.isAlive());
-
     }
 
+    /**
+     * Mètode per triar una decisió aleatoria sobre un jugador
+     * @param acc acceptat
+     * @param rev revisio
+     * @return retorna la decisió en string
+     */
     public String getRandomDecision(int acc, int rev){
         int decision=0;
         Random rand = new Random();
@@ -118,6 +147,12 @@ public class ExecutionManager {
         }
     }
 
+    /**
+     * Mètode que posa la puntuació guanyada
+     * @param edition edició feta
+     * @param i posició
+     * @return retorna la puntuació
+     */
     public int getReward(Edition edition, int i){
 
         return switch (edition.getTrials().get(i).getQuartile()) {
@@ -129,6 +164,12 @@ public class ExecutionManager {
         };
     }
 
+    /**
+     * Mètode que penalitza la puntuació al jugador
+     * @param edition edició feta
+     * @param i posicicó
+     * @return retorna la penalització
+     */
     public int getPenalization(Edition edition, int i){
 
         return switch (edition.getTrials().get(i).getQuartile()) {
@@ -140,7 +181,11 @@ public class ExecutionManager {
         };
     }
 
-    public String  askUserYesNo(){
+    /**
+     * Mètode per preguntar si vol continuar l'execució
+     * @return retorna la entrada per comanda yes/no
+     */
+    public String askUserYesNo(){
         boolean check = false;
         Scanner scanner = new Scanner(System.in);
         String input = null;
@@ -165,8 +210,4 @@ public class ExecutionManager {
         }
         return input;
     }
-
-
-
-
 }

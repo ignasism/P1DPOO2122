@@ -1,13 +1,17 @@
 package Persistance;
 
 import Business.Trial;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+/**
+ * @version 1.0, 11/3/2022
+ * Controla i gestiona la lògica dels CSV
+ */
 
 public class CSVManager {
 
@@ -16,6 +20,10 @@ public class CSVManager {
     public CSVManager() {
     }
 
+    /**
+     * Mètode que s'encarrega de carregar les trials del CSV
+     * @param trials trials a passar
+     */
     public void loadTrialsListFromCSV(ArrayList<Trial> trials){
 
         try{
@@ -33,7 +41,10 @@ public class CSVManager {
         }
     }
 
-
+    /**
+     * Mètode que copia les trials al CSV
+     * @param trials trials a copiar
+     */
     public void copyTrialsListToCSV(ArrayList<Trial> trials){
         try{
             FileWriter fw = new FileWriter(file, false);
@@ -46,6 +57,4 @@ public class CSVManager {
             System.out.println("Error is: " + e);
         }
     }
-
-
 }

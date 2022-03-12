@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @version 1.0, 11/3/2022
+ * Controla les edicions i les seves funcions
+ */
+
 public class EditionsManager {
 
     private final ArrayList<Trial> trialsList;
@@ -32,6 +37,9 @@ public class EditionsManager {
         return editionsList;
     }
 
+    /**
+     * Aquest mètode s'encarrega de crear una edició
+     */
     public void createEdition() {
 
         Edition edition = new Edition();
@@ -53,7 +61,6 @@ public class EditionsManager {
 
         num_players = askUserOptionBetweenNumbers("Enter the initial number of players: ", 1, 5);
         edition.setNumPlayers(num_players);
-
         num_trials = askUserOptionBetweenNumbers("Enter the number of trials: ", 3, 12);
         edition.setNumTrials(num_trials);
 
@@ -71,12 +78,13 @@ public class EditionsManager {
             //((ArrayList<Trial>)((Edition) edition).getTrials()).add(trialsList.get(trial-1));
             //edition.getTrials().clone();
         }
-
         System.out.println("\nThe edition was created successfully!");
         editionsList.add(edition);
-
     }
 
+    /**
+     * Aqueast mètode s'encarrega de llistar les edicions creades
+     */
     public void listEditions() {
 
         int option;
@@ -94,6 +102,9 @@ public class EditionsManager {
         }
     }
 
+    /**
+     * Aquest mètode s'encarrega de duplicar una edició ja creada
+     */
     public void duplicateEditions() {
         int option, yearToClone, numPlayersToClone;
         System.out.println("\nWhich edition do you want to clone?");
@@ -111,9 +122,11 @@ public class EditionsManager {
         } else {
             System.out.println("This Edition has already been started and can't be duplicated");
         }
-
     }
 
+    /**
+     * Aquest mètode s'encarrega de esborrar una edició
+     */
     public void deleteEdition(){
         int option, confirmationYear;
         System.out.println("\nWhich edition do you want to delete?");
@@ -130,12 +143,15 @@ public class EditionsManager {
         } else {
             System.out.println("The edition has not been deleted.");
         }
-
-
-
     }
 
-
+    /**
+     * Aqeust mètode mira si un valor estra entre uns rangs
+     * @param text valor en format string
+     * @param min rang mínim
+     * @param max rang màxim
+     * @return valor en integer
+     */
     private int askUserOptionBetweenNumbers(String text, int min, int max){
         int option;
         String input;
@@ -160,24 +176,24 @@ public class EditionsManager {
         return option;
     }
 
+    /**
+     * Mètode encarregat de clonar una edició
+     * @param edition edició a clonar
+     * @param year any de l'edició
+     * @param numPlayers nombre de jugadors de l'edició
+     */
     public void cloneEdition(Edition edition, int year, int numPlayers){
         ArrayList<Trial> trialsClone = new ArrayList<>();
-        /*
-        for(Trial trial:edition.getTrials()){
-            trialsClone.add(trial);
-        }
-        */
-        // CONTRA -> no sabemos el valor de i
         trialsClone.addAll(edition.getTrials());
 
         Edition editionClone = new Edition(year, numPlayers, edition.getNumTrials(), trialsClone, new ArrayList<>(),0);
         editionsList.add(editionClone);
-
-        //editionClone = edition; esto no hay que hacerlo por noseque de los PUTOS punteros
-
     }
 
 
+    /**
+     * Aquest mètode s'ecnarrega de printar les edicións
+     */
     public void printEditions(){
 
         System.out.print("\n");
@@ -185,9 +201,12 @@ public class EditionsManager {
             System.out.println("    " + (i+1) + ") The Trials " + editionsList.get(i).getEditionYear());
         }
         System.out.println("\n    " + (editionsList.size()+1) + ") Back\n");
-
     }
 
+    /**
+     * Aquest mètode s'encarrega de printar la informació de les edicions d'un any
+     * @param year any de les edicions
+     */
     public void printInfoYearEdition(int year){
         int aux=0;
         for (int i = 0; i < editionsList.size(); i++) {
@@ -202,13 +221,12 @@ public class EditionsManager {
             System.out.println("Player PI: " + editionsList.get(aux).getPlayerList().get(i).getInvestigationPoints());
             System.out.println("Is alive? " + editionsList.get(aux).getPlayerList().get(i).isAlive());
         }
-
-
-
-
     }
 
 
+    /**
+     * Aquest mètode s'encarrega de copiar les edicions al format CSV
+     */
     public void copyEditionsListToCSV(){
         try{
             FileWriter fw = new FileWriter(file, false);
@@ -223,6 +241,7 @@ public class EditionsManager {
         }
     }
 
+
     public boolean checkForRepeatedEditions(Edition auxedition){
         int aux=0;
         for (int i = 0; i < editionsList.size(); i++) {
@@ -235,9 +254,11 @@ public class EditionsManager {
         } else {
             return true;
         }
-
     }
 
+    /**
+     * Aquest mètode s'encarrega de passar les edicions del CSV al format normal
+     */
     public void loadEditionsListFromCSV(){
 
         try{

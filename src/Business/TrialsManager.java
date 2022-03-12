@@ -9,11 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @version 1.0, 11/3/2022
+ * Classe encarregada de gestionar les trials
+ */
 public class TrialsManager {
 
     private ArrayList<Trial> trials;
-    CSVManager csvManager = new CSVManager();
 
+    CSVManager csvManager = new CSVManager();
 
     public TrialsManager() {
         this.trials = new ArrayList<>();
@@ -31,6 +35,9 @@ public class TrialsManager {
         this.trials = trialList;
     }
 
+    /**
+     * Mètode encarregat de crear una trial
+     */
     public void createTrial(){
 
         Trial trial = new Trial();
@@ -102,6 +109,11 @@ public class TrialsManager {
         trials.add(trial);
     }
 
+    /**
+     * Mètode encarregat de generar un valor des del quartile
+     * @param sc quartile
+     * @return valor
+     */
     private int getValueFromQuartile(String sc) {
         return switch (sc) {
             case "Q1" -> 1;
@@ -112,6 +124,9 @@ public class TrialsManager {
         };
     }
 
+    /**
+     * Mètode que s'encarrega de llistar les trials creades
+     */
     public void listTrials (){
 
         int option;
@@ -135,6 +150,10 @@ public class TrialsManager {
         }
     }
 
+    /**
+     * Mètode que s'encarrega de preguntar la opció que vol fer l'usuari
+     * @return opció
+     */
     private int getOption() {
         int option;
         for (int i = 0; i < trials.size(); i++) {
@@ -148,6 +167,9 @@ public class TrialsManager {
         return option;
     }
 
+    /**
+     * Mètode encarregat de borrar una trial creada
+     */
     public void deleteTrials () {
         int option;
         String trial_deleted;
@@ -174,6 +196,13 @@ public class TrialsManager {
         }
     }
 
+    /**
+     * Mètode que controla si un valor està dins d'un rang
+     * @param text valor en string
+     * @param min mínim rang
+     * @param max màxim rang
+     * @return valor
+     */
     private int askUserOptionBetweenNumbers(String text, int min, int max){
         int option;
         String input;

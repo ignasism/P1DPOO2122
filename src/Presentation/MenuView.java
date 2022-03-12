@@ -1,18 +1,21 @@
 package Presentation;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
-import Business.MenuController;
-import Business.Trial;
 
+/**
+ * @version 1.0, 11/3/2022
+ * Classe que mostra els menus per comanda
+ */
 
 public class MenuView {
+
     public MenuView() {
     }
 
-
+    /**
+     * Mètode que pregunta el rol que vols ser
+     * @return rol
+     */
     public char getRole() {
 
         Scanner scanner = new Scanner(System.in);
@@ -39,6 +42,10 @@ public class MenuView {
         return input;
     }
 
+    /**
+     * Mètode que pregunta que vols gestionar, si edicions o trials
+     * @return option a gestionar
+     */
     public int getManagmentMode(){
         int option;
 
@@ -51,6 +58,10 @@ public class MenuView {
         return option;
     }
 
+    /**
+     * Mètode que pregunta que vols fer amb les trials
+     * @return option que vols fer
+     */
     public int subManageTrials(){
         int option;
 
@@ -63,6 +74,10 @@ public class MenuView {
         return option;
     }
 
+    /**
+     * Mètode que pregunta que vols fer amb les edicions
+     * @return option que vols fer
+     */
     public int subManageEditions(){
         int option;
 
@@ -76,7 +91,13 @@ public class MenuView {
         return option;
     }
 
-
+    /**
+     * Mètode que pregunta si un valor(char) està dins d'un rang
+     * @param text valor
+     * @param min rang min
+     * @param max rang max
+     * @return retorna el valor correcte
+     */
     private char askUserOptionBetweenLetters (String text, char min, char max){
 
         char input;
@@ -95,6 +116,13 @@ public class MenuView {
         return input;
     }
 
+    /**
+     * Mètode que pregunta si un valor(int) està dins d'un rang
+     * @param text valor
+     * @param min rang min
+     * @param max rang max
+     * @return retorna el valor correcte
+     */
     private int askUserOptionBetweenNumbers(String text, int min, int max){
         int option;
         String input;
@@ -118,6 +146,4 @@ public class MenuView {
         } while (option<min || option>max);
         return option;
     }
-
-
 }

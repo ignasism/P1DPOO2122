@@ -1,7 +1,15 @@
 package Business;
 
-import java.io.File;
 import java.util.ArrayList;
+
+/**
+ *
+ * @version 1.0, 11/03/2022
+ *
+ * Aquesta classe defineix diferents característiques de la
+ * de l'edició
+ *
+ */
 
 public class Edition {
 
@@ -74,6 +82,9 @@ public class Edition {
         this.trials = trials;
     }
 
+    /**
+     * Aquest mètode printa la informació d'una edició segons toqui
+     */
     public void printDetails(){
         System.out.println("\nYear: " + editionYear);
         System.out.println("Players: " + numPlayers);
@@ -84,6 +95,10 @@ public class Edition {
 
     }
 
+    /**
+     * Aquest mètode mira qui esta viu i qui no
+     * @return retorna un booleà fals si no està viu
+     */
     public boolean isAnyoneAlive(){
 
         for (Player player : playerList) {
@@ -94,6 +109,10 @@ public class Edition {
         return false;
     }
 
+    /**
+     * Aquest mètode s'encarrega el nombre de finalistes
+     * @return retorna un int amb el total de finalistes
+     */
     public int howManyFinishers(){
         int count=0;
         for (Player player : playerList) {
@@ -104,10 +123,18 @@ public class Edition {
         return count;
     }
 
+    /**
+     * Aquest mètode passa una variable String a fitxer CSV
+     * @return retorna ja passat a CSV
+     */
     public String toCSV(){
         return editionYear + ";" + numPlayers + ";" + playersListToCSV() + ";" + numTrials + ";" + trialsListToCSV() + ";" + trialExecuting;
     }
 
+    /**
+     * Aquest mètode passa la llista de jugadors a fitxer CSV
+     * @return retorna la llista de jugadors
+     */
     public String playersListToCSV(){
         StringBuilder stringPlayers = new StringBuilder();
 
@@ -125,6 +152,10 @@ public class Edition {
         return stringPlayers.toString();
     }
 
+    /**
+     * Aquest mètode passa la llista de partides a CSV
+     * @return retorna la llista de partides
+     */
     public String trialsListToCSV(){
         StringBuilder stringTrials = new StringBuilder();
 
@@ -142,14 +173,16 @@ public class Edition {
         return stringTrials.toString();
     }
 
+    /**
+     * Aquest mètode passa la informació del CSV a una edició
+     * @param line informació del CSV
+     */
     public void setEditionValuesFromCSV(String line) {
         String[] values = line.split(";");
         editionYear = Integer.parseInt(values[0]);
         numPlayers = Integer.parseInt(values[1]);
 
         String[] playerValues = values[2].split(":");
-        //System.out.println("length value of player values: " + playerValues.length);
-        //System.out.println("value of only element of player value: " + playerValues[0] + " :");
         if (!playerValues[0].equals("")) {
             for (int i = 0; i < playerValues.length; i++) {
                 Player player = new Player();
@@ -168,6 +201,5 @@ public class Edition {
         }
 
         trialExecuting = Integer.parseInt(values[5]);
-
     }
 }

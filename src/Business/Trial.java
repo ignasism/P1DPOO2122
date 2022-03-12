@@ -1,13 +1,18 @@
 package Business;
 
+/**
+ * @version 1.0, 11/3/2022
+ * Classe de l'objecte trial
+ */
+
 public class Trial {
+
     private String trialName;
     private String publicationName;
     private int quartile;
     private int acceptanceProbability;
     private int revisionProbability;
     private int rejectionProbability;
-
 
     public Trial(String trialName, String publicationName, int quartile, int acceptanceProbability, int revisionProbability, int rejectionProbability) {
         this.trialName = trialName;
@@ -16,13 +21,10 @@ public class Trial {
         this.acceptanceProbability = acceptanceProbability;
         this.revisionProbability = revisionProbability;
         this.rejectionProbability = rejectionProbability;
-
     }
 
     public Trial() {
     }
-
-
 
     public String getTrialName() {
         return trialName;
@@ -76,6 +78,10 @@ public class Trial {
         this.rejectionProbability = rejectionProbability;
     }
 
+    /**
+     * Mètode que passa els valors de CSV a l'objecte trial
+     * @param line String del CSV
+     */
     public void setValuesFromCSV(String line){
         String[] values = line.split("_");
         System.out.println("line: " + line);
@@ -87,12 +93,10 @@ public class Trial {
         rejectionProbability = Integer.parseInt(values[5]);
     }
 
+    /**
+     * Mètode que passa els valors al CSV
+     */
     public String toCSV(){
         return trialName + "_" + publicationName + "_" + quartile + "_" + acceptanceProbability + "_" + revisionProbability + "_" + rejectionProbability;
     }
-
-
-
-
-
 }

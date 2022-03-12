@@ -1,5 +1,9 @@
 package Business;
 
+/**
+ * @version 1.0, 11/3/2022
+ * Classe de l'objecte jugador
+ */
 public class Player {
 
     private String name;
@@ -39,25 +43,34 @@ public class Player {
         this.investigationPoints = investigationPoints;
     }
 
+    /**
+     * Passa al CSV els valors de jugador
+     * @return retorna la informació a CSV
+     */
     public String toCSV(){
         return name + "-" + investigationPoints + "-" + alive;
     }
 
+    /**
+     * Mètode que posa els valors del CSV a la classe jugador
+     * @param line informació del CSV en String
+     */
     public void setPlayerValuesFromCSV(String line){
         String[] values = line.split("-");
         name = values[0];
         investigationPoints = Integer.parseInt(values[1]);
-        //System.out.println("Value of values[2]: " + values[2]);
-        //System.out.println("Before: " + setTrueFalseFromString(values[2]));
         alive = setTrueFalseFromString(values[2]);
-        //System.out.println("After: " + alive);
     }
 
+    /**
+     * Mètode que posa a true o false depenent del string
+     * @param line String
+     * @return true/false
+     */
     public boolean setTrueFalseFromString(String line){
         return switch (line) {
             case "true" -> true;
             default -> false;
         };
     }
-
 }
